@@ -176,51 +176,51 @@ Now, analyze the student study material provided above and generate the JSON res
     required: ['scene'],
   };
 
-  let responseText: string | undefined;
+  async function executeModelCall(promptText: string): Promise<GeneratedMemoryPalaceScene> {
+    let responseText: string | undefined;
 
-  try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: sceneResponseSchema,
-      },
-    });
-    responseText = response.text;
-  } catch (err: any) {
-    // If rate-limited or quota exceeded on 3.8-flash, seamlessly fall back to gemini-3.1-flash-lite
-    if (
-      err?.status === 429 ||
-      err?.message?.includes('RESOURCE_EXHAUSTED') ||
-      err?.message?.includes('quota') ||
-      err?.message?.includes('exceeded')
-    ) {
-      console.warn('gemini-3.8-flash rate-limited, executing fallback on gemini-3.1-flash-lite...');
-      const fallbackResponse = await ai.models.generateContent({
-        model: 'gemini-3.1-flash-lite',
-        contents: prompt,
+    try {
+      const response = await ai.models.generateContent({
+        model: 'gemini-3.8-flash',
+        contents: promptText,
         config: {
           responseMimeType: 'application/json',
           responseSchema: sceneResponseSchema,
         },
       });
-      responseText = fallbackResponse.text;
-    } else {
-      throw err;
+      responseText = response.text;
+    } catch (err: any) {
+      // If rate-limited or quota exceeded on 3.8-flash, seamlessly fall back to gemini-3.1-flash-lite
+      if (
+        err?.status === 429 ||
+        err?.message?.includes('RESOURCE_EXHAUSTED') ||
+        err?.message?.includes('quota') ||
+        err?.message?.includes('exceeded')
+      ) {
+        console.warn('gemini-3.8-flash rate-limited, executing fallback on gemini-3.1-flash-lite...');
+        const fallbackResponse = await ai.models.generateContent({
+          model: 'gemini-3.1-flash-lite',
+          contents: promptText,
+          config: {
+            responseMimeType: 'application/json',
+            responseSchema: sceneResponseSchema,
+          },
+        });
+        responseText = fallbackResponse.text;
+      } else {
+        throw err;
+      }
     }
-  }
 
-  if (!responseText) {
-    throw new Error('Received an empty response from the Gemini API.');
-  }
+    if (!responseText) {
+      throw new Error('Received an empty response from the Gemini API.');
+    }
 
-  // Log the raw response directly to the browser console for inspection
-  console.log('================== [GEMINI RAW JSON RESPONSE START] ==================');
-  console.log(responseText);
-  console.log('================== [GEMINI RAW JSON RESPONSE END] ====================');
+    // Log the raw response directly to the browser console for inspection
+    console.log('================== [GEMINI RAW JSON RESPONSE START] ==================');
+    console.log(responseText);
+    console.log('================== [GEMINI RAW JSON RESPONSE END] ====================');
 
-  try {
     // Strip possible markdown backticks if returned
     const cleanedText = responseText.replace(/```json\s*/g, '').replace(/```\s*$/g, '').trim();
     const rawParsed = JSON.parse(cleanedText);
@@ -245,20 +245,46 @@ Now, analyze the student study material provided above and generate the JSON res
       metaphor: String(room.metaphor || 'A vivid sensory landmark designed to anchor the memory.'),
     }));
 
-    // Safeguard: If fewer than 2 rooms were generated, ensure at least 2 distinct chambers exist
-    if (parsed.scene.rooms.length === 1) {
-      const first = parsed.scene.rooms[0];
-      parsed.scene.rooms.push({
-        room_id: 'r2',
-        room_name: `${first.room_name} — Observation Gallery`,
-        object_name: `${first.object_name} (Mechanism & Dynamics)`,
-        metaphor: `An adjacent vaulted gallery in ${first.room_name} where dynamic gears and illuminated blueprints demonstrate the inner workings of ${first.object_name}.`,
-      });
+    return parsed;
+  }
+
+  // Calculate approximate word count of input text
+  const wordCount = studyText.trim().split(/\s+/).filter(Boolean).length;
+
+  try {
+    let result = await executeModelCall(prompt);
+
+    // Client-side validation safety net:
+    // If "rooms" contains fewer than 2 entries AND input text is roughly 100 words or more,
+    // automatically retry the API call ONCE with a more explicit instruction appended.
+    if (result.scene.rooms.length < 2 && wordCount >= 100) {
+      console.warn(
+        `[Client-Side Validation] Model returned only ${result.scene.rooms.length} room(s) for a ${wordCount}-word input. Retrying ONCE with explicit multi-room instruction...`
+      );
+
+      const retryPrompt = `${prompt}
+
+CRITICAL RETRY MANDATE:
+Your previous attempt returned only 1 room. The input text contains ${wordCount} words describing multiple distinct concepts, entities, or mechanisms.
+You MUST break this material down and return at least 2 or 3 distinct rooms in the "rooms" array (e.g. r1, r2, r3). Do not collapse multiple concepts into a single room under any circumstances.`;
+
+      try {
+        const retryResult = await executeModelCall(retryPrompt);
+        console.log(
+          `[Client-Side Validation Retry] Result received with ${retryResult.scene.rooms.length} room(s).`
+        );
+        // If the retry generated more rooms (or even if it still generated 1), accept it without retrying further
+        result = retryResult;
+      } catch (retryError) {
+        console.warn('[Client-Side Validation Retry] Retry call failed, accepting initial result:', retryError);
+      }
     }
 
-    return parsed;
+    return result;
   } catch (err) {
-    console.error('Failed to parse Gemini JSON output:', responseText, err);
-    throw new Error(`Failed to parse structured memory palace from Gemini response: ${err instanceof Error ? err.message : String(err)}`);
+    console.error('Failed to generate or parse Gemini memory palace:', err);
+    throw new Error(
+      `Failed to generate memory palace from Gemini: ${err instanceof Error ? err.message : String(err)}`
+    );
   }
 }
