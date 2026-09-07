@@ -1,0 +1,6 @@
+{
+  "name": "MnemoVerse",
+  "description": "Dreamy spatial memory palace study environment with mental architecture visualization and recall dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
