@@ -186,7 +186,7 @@ export const InputScreen: React.FC<InputScreenProps> = ({
                   {errorMessage}
                 </p>
                 <div className="mt-2 text-[11px] text-rose-300/80">
-                  Ensure the <code className="px-1.5 py-0.5 rounded bg-black/40 text-rose-200 font-mono">GEMINI_API_KEY</code> environment variable is set.
+                  Ensure the <code className="px-1.5 py-0.5 rounded bg-black/40 text-rose-200 font-mono">VITE_GEMINI_API_KEY</code> environment variable is set.
                 </div>
               </div>
             </div>
@@ -206,7 +206,7 @@ export const InputScreen: React.FC<InputScreenProps> = ({
         {/* Primary Action Button */}
         <div className="mt-8 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-slate-400 text-center sm:text-left">
-            Direct client-side Gemini synthesis: extracts key concept & vivid metaphor.
+            Direct client-side Gemini synthesis: groups 2–3 related concepts into one shared scene with rooms.
           </p>
           <button
             type="button"

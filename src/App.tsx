@@ -33,6 +33,8 @@ export default function App() {
 
     try {
       const result = await generateMemoryPalaceScene(textToProcess, selectedArchetype.name);
+      console.log('[App.tsx] Result received from generateMemoryPalaceScene:', result);
+      console.log('[App.tsx] Total rooms in scene:', result.scene?.rooms?.length, result.scene?.rooms);
       setGeneratedScene(result);
 
       // Award study points & increment concepts mastered
@@ -49,7 +51,7 @@ export default function App() {
     } catch (err: any) {
       console.error('Gemini Palace Generation failed:', err);
       setErrorMessage(
-        err?.message || 'Failed to generate memory palace scene. Please check your GEMINI_API_KEY environment variable.'
+        err?.message || 'Failed to generate memory palace scene. Please check your VITE_GEMINI_API_KEY environment variable.'
       );
     } finally {
       setIsGenerating(false);

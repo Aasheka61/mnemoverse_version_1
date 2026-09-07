@@ -13,7 +13,8 @@ import {
   Copy,
   Check,
   BrainCircuit,
-  Maximize2
+  DoorOpen,
+  Home
 } from 'lucide-react';
 import { GeneratedMemoryPalaceScene, MemoryRoom, PalaceArchetype } from '../types';
 
@@ -86,14 +87,18 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
       {/* Top Header & Breadcrumbs */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div>
-          <div className="flex items-center gap-2 mb-1.5">
+          <div className="flex items-center gap-2 mb-1.5 flex-wrap">
             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.2)]">
-              <Compass className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Room View</span>
+              <Home className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Shared Scene</span>
             </span>
             <span className="text-xs text-slate-500">•</span>
             <span className="text-xs text-purple-300 font-medium">
               Theme: {archetype.name}
+            </span>
+            <span className="text-xs text-slate-500">•</span>
+            <span className="text-xs text-slate-400">
+              {rooms.length} Concept {rooms.length === 1 ? 'Chamber' : 'Chambers'}
             </span>
           </div>
           
@@ -103,8 +108,8 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
           
           <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
             {notesSnippet 
-              ? `Synthesized directly via Gemini with key concepts anchored into spatial chambers.`
-              : `Explore your spatial memory palace environment and inspect encoded concept loci.`}
+              ? `Unified shared palace generated via Gemini: related concepts anchored across distinct rooms for seamless mental walking.`
+              : `Explore your shared memory palace environment and inspect encoded concept chambers.`}
           </p>
         </div>
 
@@ -181,13 +186,107 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
         </div>
       )}
 
+      {/* CLICKABLE ROOM TILES: Shows all rooms as interactive tiles */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <DoorOpen className="w-4 h-4 text-cyan-400" />
+            <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+              Palace Rooms ({rooms.length})
+            </h2>
+            <span className="text-xs text-slate-400 hidden sm:inline">
+              — Click a room tile to inspect its concept anchor and vivid metaphor
+            </span>
+          </div>
+          <span className="text-xs font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-500/30 px-2 py-0.5 rounded-md">
+            Active: {activeRoom?.room_name || 'Room'}
+          </span>
+        </div>
+
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${rooms.length >= 3 ? 'lg:grid-cols-3' : ''} gap-4`}>
+          {rooms.map((room, index) => {
+            const isActive = activeRoomIndex === index;
+            return (
+              <button
+                key={room.room_id || `room-tile-${index}`}
+                id={`room-tile-${room.room_id || index}`}
+                type="button"
+                onClick={() => setActiveRoomIndex(index)}
+                className={`text-left p-4 rounded-xl border transition-all duration-200 relative group cursor-pointer focus:outline-none ${
+                  isActive
+                    ? 'bg-gradient-to-b from-[#131b3e] via-[#0e1430] to-[#080c20] border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.25)] ring-1 ring-cyan-400/80 scale-[1.01]'
+                    : 'bg-[#090d1f]/80 hover:bg-[#0e142e] border-slate-800 hover:border-purple-500/40'
+                }`}
+              >
+                {/* Active Accent Top Line */}
+                {isActive && (
+                  <div className="absolute top-0 left-4 right-4 h-0.5 bg-gradient-to-r from-purple-500 via-cyan-400 to-indigo-500 rounded-full" />
+                )}
+
+                {/* Card Top Row: Room ID & Active Status */}
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-1.5">
+                    <span
+                      className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded uppercase border ${
+                        isActive
+                          ? 'bg-cyan-950 text-cyan-300 border-cyan-400/50'
+                          : 'bg-slate-900 text-slate-400 border-slate-700'
+                      }`}
+                    >
+                      {room.room_id || `r${index + 1}`}
+                    </span>
+                    <span className="text-[11px] text-slate-400">
+                      Room {index + 1} of {rooms.length}
+                    </span>
+                  </div>
+
+                  {isActive ? (
+                    <span className="flex items-center gap-1 text-[10px] font-semibold text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded-full border border-cyan-500/40">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                      Active Chamber
+                    </span>
+                  ) : (
+                    <span className="text-[10px] text-slate-500 group-hover:text-slate-300 flex items-center gap-1">
+                      Click to explore
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </span>
+                  )}
+                </div>
+
+                {/* Room Title */}
+                <h3
+                  className={`text-sm font-bold leading-snug mb-2 transition-colors line-clamp-1 ${
+                    isActive ? 'text-white' : 'text-slate-200 group-hover:text-white'
+                  }`}
+                >
+                  {room.room_name}
+                </h3>
+
+                {/* Key Concept Anchor */}
+                <div className="mb-2 p-2 rounded-lg bg-black/40 border border-slate-800/80 flex items-center gap-2">
+                  <BrainCircuit className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-cyan-400' : 'text-purple-400'}`} />
+                  <span className="text-xs text-slate-300 font-semibold truncate">
+                    {room.object_name}
+                  </span>
+                </div>
+
+                {/* Metaphor Preview */}
+                <p className="text-xs text-slate-400/90 leading-relaxed italic line-clamp-2">
+                  "{room.metaphor}"
+                </p>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Main Layout: Scene Viewport + Room Locus Inspector Card */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Scene Viewport Container (lg:col-span-8) */}
         <div className="lg:col-span-8 flex flex-col gap-4">
           <div 
             id="memory-palace-room-viewport"
-            className="relative w-full h-[400px] sm:h-[480px] rounded-2xl bg-gradient-to-b from-[#0a0e22] via-[#070a16] to-[#04060e] border border-purple-500/20 shadow-[0_0_35px_-5px_rgba(147,51,234,0.15)] overflow-hidden flex flex-col justify-between p-4 sm:p-6"
+            className="relative w-full h-[380px] sm:h-[440px] rounded-2xl bg-gradient-to-b from-[#0a0e22] via-[#070a16] to-[#04060e] border border-purple-500/20 shadow-[0_0_35px_-5px_rgba(147,51,234,0.15)] overflow-hidden flex flex-col justify-between p-4 sm:p-6"
           >
             {/* Ambient Background Glow Orbs */}
             <div className="absolute -top-16 -left-16 w-64 h-64 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
@@ -217,26 +316,29 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#080d1e]/80 border border-slate-800/80 backdrop-blur-md text-xs text-slate-400">
                 <Layers className="w-3.5 h-3.5 text-purple-400" />
-                <span>Generated Rooms: {rooms.length}</span>
+                <span>Chamber {activeRoomIndex + 1} of {rooms.length}</span>
               </div>
             </div>
 
             {/* Center Room Wireframe Hologram Representation */}
             <div className="relative z-10 flex-1 flex flex-col items-center justify-center my-2 pointer-events-none">
-              <div className="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
+              <div className="relative w-64 h-64 sm:w-76 sm:h-76 flex items-center justify-center">
                 {/* Outer rotating ring */}
                 <div className="absolute inset-0 rounded-full border border-dashed border-purple-500/25 animate-[spin_60s_linear_infinite]" />
                 {/* Secondary cyan ring */}
                 <div className="absolute inset-6 rounded-full border border-cyan-500/20 animate-[spin_40s_linear_infinite_reverse]" />
                 
                 {/* Center glowing mnemonic locus node */}
-                <div className="w-36 h-36 rounded-2xl bg-gradient-to-tr from-purple-950/70 via-indigo-950/60 to-cyan-950/70 border border-cyan-400/40 backdrop-blur-md flex flex-col items-center justify-center p-3 shadow-[0_0_35px_rgba(6,182,212,0.25)] text-center">
+                <div className="w-40 h-40 rounded-2xl bg-gradient-to-tr from-purple-950/80 via-indigo-950/70 to-cyan-950/80 border border-cyan-400/40 backdrop-blur-md flex flex-col items-center justify-center p-3.5 shadow-[0_0_35px_rgba(6,182,212,0.25)] text-center">
                   <BrainCircuit className="w-7 h-7 text-cyan-300 mb-1.5 animate-pulse" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-200 block truncate max-w-[120px]">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-200 block truncate max-w-[130px]">
                     {activeRoom ? activeRoom.room_id : 'R1'}
                   </span>
-                  <span className="text-xs font-semibold text-white line-clamp-1">
+                  <span className="text-xs font-bold text-white line-clamp-1 mb-1">
                     {activeRoom ? activeRoom.object_name : 'Concept'}
+                  </span>
+                  <span className="text-[10px] text-slate-300/80 line-clamp-1">
+                    {activeRoom ? activeRoom.room_name : 'Chamber'}
                   </span>
                 </div>
               </div>
@@ -249,12 +351,13 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
                 const coords = getRoomCoords(index, rooms.length);
                 return (
                   <button
-                    key={room.room_id || `room-${index}`}
+                    key={room.room_id || `room-pin-${index}`}
                     type="button"
                     id={`room-pin-${room.room_id || index}`}
                     onClick={() => setActiveRoomIndex(index)}
                     style={{ left: `${coords.x}%`, top: `${coords.y}%` }}
                     className="absolute -translate-x-1/2 -translate-y-1/2 group cursor-pointer focus:outline-none"
+                    title={`Click to view ${room.room_name}`}
                   >
                     {/* Ripple glow pulse for active room */}
                     {isActive && (
@@ -317,11 +420,11 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-cyan-400 shrink-0" />
               <span>
-                Select a chamber pin above to examine the key concept and vivid metaphor.
+                Select any room tile above or click spatial pins to travel between chambers.
               </span>
             </div>
             <span className="text-purple-300 text-xs font-medium shrink-0">
-              Active Chamber: {activeRoom?.room_id || 'r1'}
+              Viewing: {activeRoom?.room_id || 'r1'}
             </span>
           </div>
         </div>
@@ -334,7 +437,7 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
               <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800/80">
                 <span className="text-xs font-semibold tracking-wider uppercase text-purple-300 flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-                  Room Chamber
+                  Chamber Inspection
                 </span>
                 <span className="px-2 py-0.5 rounded-full text-xs font-mono bg-purple-950/80 text-cyan-200 border border-purple-500/30">
                   {activeRoom?.room_id || 'r1'}
@@ -351,12 +454,12 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
                 </h2>
               </div>
 
-              {/* Requirement (1): One Key Concept from the text */}
+              {/* Key Concept from the text */}
               <div className="mb-4 p-3.5 rounded-xl bg-purple-950/30 border border-purple-500/30 shadow-[0_0_15px_rgba(147,51,234,0.1)]">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-[11px] font-semibold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
                     <BrainCircuit className="w-3.5 h-3.5 text-purple-400" />
-                    Key Concept
+                    Key Concept Anchor
                   </span>
                   <span className="text-[10px] font-mono text-purple-400">
                     (object_name)
@@ -367,12 +470,12 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
                 </div>
               </div>
 
-              {/* Requirement (2): Vivid Metaphor for it */}
+              {/* Vivid Metaphor */}
               <div className="mb-5 p-4 rounded-xl bg-gradient-to-br from-[#070b1d] to-[#0a112c] border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.15)]">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[11px] font-semibold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                    Vivid Metaphor
+                    Vivid Sensory Metaphor
                   </span>
                   <span className="text-[10px] font-mono text-cyan-400">
                     (metaphor)
@@ -388,7 +491,7 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
                 <span className="text-slate-300 font-semibold block mb-0.5">
                   Spatial Encoding Tip:
                 </span>
-                Close your eyes and mentally walk into <strong>{activeRoom?.room_name}</strong>. Picture the <strong>{activeRoom?.object_name}</strong> physically manifesting as {activeRoom?.metaphor?.slice(0, 80)}...
+                Mentally step through the door of <strong>{activeRoom?.room_name}</strong>. Anchor <strong>{activeRoom?.object_name}</strong> to the room's physical layout by picturing {activeRoom?.metaphor?.slice(0, 80)}...
               </div>
             </div>
 

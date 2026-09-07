@@ -2,13 +2,25 @@ import { GeneratedMemoryPalaceScene, MemoryLocus, PalaceArchetype, UserStats } f
 
 export const DEFAULT_GENERATED_SCENE: GeneratedMemoryPalaceScene = {
   scene: {
-    scene_name: 'Chamber of Cellular Energy',
+    scene_name: 'The Cellular Respiration Estate',
     rooms: [
       {
         room_id: 'r1',
-        room_name: 'The Mitochondrial Core',
-        object_name: 'Chemiosmotic Proton Gradient',
-        metaphor: 'A towering crystalline dam holding back a sea of glowing cyan sparks, driving a spinning rotary waterwheel that forges luminous golden ATP coins.',
+        room_name: 'The Kitchen of Glycolysis',
+        object_name: 'Glucose Cleavage to Pyruvate',
+        metaphor: 'A bustling prep kitchen with twin cleavers cleanly splitting a shimmering golden sugar loaf into two humming vials of glowing energy broth.',
+      },
+      {
+        room_id: 'r2',
+        room_name: 'The Grand Hall of the Citric Cycle',
+        object_name: 'Acetyl-CoA & NADH Reduction',
+        metaphor: 'A grand circular banquet table turning steadily clockwise, where eight silver platters strip high-energy sparks onto glowing blue courier flags.',
+      },
+      {
+        room_id: 'r3',
+        room_name: 'The Attic of Chemiosmosis',
+        object_name: 'ATP Synthase Rotary Motor',
+        metaphor: 'A towering crystalline dam restraining a sea of pressurized cyan sparks, driving a spinning rotary waterwheel that mints brilliant golden ATP coins.',
       },
     ],
   },
