@@ -67,19 +67,18 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       {/* Dashboard Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/60 border border-purple-500/30 text-purple-300 text-xs font-semibold mb-2">
-            <Trophy className="w-3.5 h-3.5 text-cyan-300" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ECE5D6] border border-[#3D3226]/20 text-[#2B2420] text-xs font-mono font-semibold mb-2 shadow-sm">
+            <Trophy className="w-3.5 h-3.5 text-[#D4A017]" />
             <span>Mnemonic Mastery Codex</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block ml-1" title="Firestore Connected" />
-            <span className="text-[10px] text-emerald-300 font-mono">Cloud Synced</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#2E5940] inline-block ml-1" title="Firestore Connected" />
+            <span className="text-[10px] text-[#2E5940] font-mono">Cloud Synced</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-            Study{' '}
-            <span className="bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-300 bg-clip-text text-transparent">
-              Mastery Dashboard
-            </span>
+          <h1 className="text-2xl sm:text-3xl font-serif font-extrabold text-[#2B2420] tracking-tight">
+            Study Mastery Dashboard
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          {/* Horizontal divider under screen heading */}
+          <div className="w-16 h-0.5 bg-[#3D3226]/20 my-2" />
+          <p className="text-xs sm:text-sm text-[#2B2420]/80 mt-1">
             Real-time telemetry of your spatial palaces, cognitive anchors, and Firestore persistence.
           </p>
         </div>
@@ -89,41 +88,40 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
           type="button"
           id="dash-create-palace-btn"
           onClick={onNavigateToInput}
-          className="self-start sm:self-auto px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-white bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 shadow-[0_0_20px_rgba(168,85,247,0.35)] transition-all flex items-center gap-2 cursor-pointer"
+          className="self-start sm:self-auto px-5 py-2.5 game-btn-primary text-xs sm:text-sm font-bold shadow-[0_4px_0_#8B350C] flex items-center gap-2 cursor-pointer"
         >
-          <Plus className="w-4 h-4 text-cyan-200" />
+          <Plus className="w-4 h-4 text-white" />
           <span>Architect New Palace</span>
         </button>
       </div>
 
       {/* Primary 3 Key Metrics Cards: Points, Concepts Mastered, Streak */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-        {/* Metric 1: Points / XP */}
+        {/* Metric 1: Points / XP - Reward Moment with Gold #D4A017 */}
         <div 
           id="stat-card-points"
-          className="rounded-2xl bg-[#090d1f]/90 border border-purple-500/20 p-5 shadow-[0_0_30px_-5px_rgba(168,85,247,0.12)] backdrop-blur-xl relative overflow-hidden group hover:border-purple-500/40 transition-all duration-300"
+          className="rounded-2xl bg-[#DCCFB0] border-2 border-[#3D3226]/25 p-5 shadow-[0_5px_0_#3D3226] hover:-translate-y-1 hover:shadow-[0_7px_0_#3D3226] relative overflow-hidden transition-all duration-200"
         >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/10 rounded-full blur-2xl pointer-events-none" />
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-purple-400" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#2B2420] flex items-center gap-1.5 font-mono">
+              <Zap className="w-4 h-4 text-[#D4A017]" />
               Mnemonic Points
             </span>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-purple-950 text-purple-200 border border-purple-500/30">
+            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-lg bg-[#ECE5D6] text-[#D4A017] font-extrabold border border-[#D4A017]/40 shadow-sm">
               Level {stats.level}
             </span>
           </div>
-          <div className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
+          <div className="text-3xl sm:text-4xl font-serif font-black text-[#2B2420] tracking-tight mb-2">
             {stats.points.toLocaleString()}{' '}
-            <span className="text-sm font-semibold text-purple-300">XP</span>
+            <span className="text-sm font-sans font-bold text-[#D4A017]">XP</span>
           </div>
-          <p className="text-xs text-slate-400 mb-3">
+          <p className="text-xs text-[#2B2420]/75 mb-3 font-medium">
             {(Math.max(0, stats.nextLevelPoints - stats.points)).toLocaleString()} XP until Level {stats.level + 1} Palace Architect
           </p>
           {/* Progress Bar */}
-          <div className="w-full h-2 rounded-full bg-slate-800/80 overflow-hidden">
+          <div className="w-full h-2.5 rounded-full bg-[#ECE5D6] border border-[#3D3226]/20 overflow-hidden shadow-inner">
             <div 
-              className="h-full rounded-full bg-gradient-to-r from-purple-500 to-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+              className="h-full rounded-full bg-[#D4A017]"
               style={{ width: `${Math.min(100, (stats.points / stats.nextLevelPoints) * 100)}%` }}
             />
           </div>
@@ -132,24 +130,23 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         {/* Metric 2: Concepts Mastered (Real count from Firestore scenes) */}
         <div 
           id="stat-card-concepts"
-          className="rounded-2xl bg-[#090d1f]/90 border border-cyan-500/20 p-5 shadow-[0_0_30px_-5px_rgba(6,182,212,0.12)] backdrop-blur-xl relative overflow-hidden group hover:border-cyan-500/40 transition-all duration-300"
+          className="rounded-2xl bg-[#DCCFB0] border-2 border-[#3D3226]/25 p-5 shadow-[0_5px_0_#3D3226] hover:-translate-y-1 hover:shadow-[0_7px_0_#3D3226] relative overflow-hidden transition-all duration-200"
         >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-600/10 rounded-full blur-2xl pointer-events-none" />
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
-              <BrainCircuit className="w-4 h-4 text-cyan-400" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#2B2420] flex items-center gap-1.5 font-mono">
+              <BrainCircuit className="w-4 h-4 text-[#2E5940]" />
               Concepts Saved
             </span>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-cyan-950 text-cyan-200 border border-cyan-500/30 flex items-center gap-1">
-              <Database className="w-3 h-3 text-cyan-400" />
+            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-lg bg-[#ECE5D6] text-[#2E5940] font-bold border border-[#3D3226]/20 shadow-sm flex items-center gap-1">
+              <Database className="w-3 h-3 text-[#2E5940]" />
               Firestore
             </span>
           </div>
-          <div className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
+          <div className="text-3xl sm:text-4xl font-serif font-black text-[#2B2420] tracking-tight mb-2">
             {realConceptsCount || stats.conceptsMastered}{' '}
-            <span className="text-sm font-semibold text-cyan-300">Anchors</span>
+            <span className="text-sm font-sans font-bold text-[#2E5940]">Anchors</span>
           </div>
-          <p className="text-xs text-slate-400 mb-3">
+          <p className="text-xs text-[#2B2420]/75 mb-3 font-medium">
             Stored across {totalPalacesCount} persisted memory palace{totalPalacesCount === 1 ? '' : 's'}
           </p>
           {/* Mini Concept Visual Indicators */}
@@ -157,45 +154,44 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
             {[...Array(6)].map((_, i) => (
               <div 
                 key={i} 
-                className={`h-1.5 flex-1 rounded-full ${i < Math.min(6, realConceptsCount || 1) ? 'bg-cyan-400/80 shadow-[0_0_6px_rgba(6,182,212,0.5)]' : 'bg-slate-800'}`} 
+                className={`h-2 flex-1 rounded-full ${i < Math.min(6, realConceptsCount || 1) ? 'bg-[#2E5940]' : 'bg-[#3D3226]/15'}`} 
               />
             ))}
           </div>
         </div>
 
-        {/* Metric 3: Streak / Spaced Repetition */}
+        {/* Metric 3: Streak / Spaced Repetition - Reward Moment with Gold #D4A017 */}
         <div 
           id="stat-card-streak"
-          className="rounded-2xl bg-[#090d1f]/90 border border-amber-500/20 p-5 shadow-[0_0_30px_-5px_rgba(245,158,11,0.12)] backdrop-blur-xl relative overflow-hidden group hover:border-amber-500/40 transition-all duration-300"
+          className="rounded-2xl bg-[#DCCFB0] border-2 border-[#3D3226]/25 p-5 shadow-[0_5px_0_#3D3226] hover:-translate-y-1 hover:shadow-[0_7px_0_#3D3226] relative overflow-hidden transition-all duration-200"
         >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-600/10 rounded-full blur-2xl pointer-events-none" />
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
-              <Flame className="w-4 h-4 text-amber-400 fill-amber-400/30" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#2B2420] flex items-center gap-1.5 font-mono">
+              <Flame className="w-4 h-4 text-[#D4A017] fill-[#D4A017]/30" />
               Study Streak
             </span>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-amber-950 text-amber-200 border border-amber-500/30">
+            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-lg bg-[#ECE5D6] text-[#D4A017] font-extrabold border border-[#D4A017]/40 shadow-sm">
               {stats.streakDays} Day{stats.streakDays === 1 ? '' : 's'}
             </span>
           </div>
-          <div className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
+          <div className="text-3xl sm:text-4xl font-serif font-black text-[#2B2420] tracking-tight mb-2">
             {stats.streakDays}{' '}
-            <span className="text-sm font-semibold text-amber-300">Days Active</span>
+            <span className="text-sm font-sans font-bold text-[#D4A017]">Days Active</span>
           </div>
-          <p className="text-xs text-slate-400 mb-3">
+          <p className="text-xs text-[#2B2420]/75 mb-3 font-medium">
             Spaced repetition schedules keep neural loci crystallizing.
           </p>
 
           {/* 7-Day Visual Tracker */}
           <div className="flex items-center justify-between pt-1">
-            {daysOfWeek.map((day, idx) => (
+            {daysOfWeek.map((day) => (
               <div key={day} className="flex flex-col items-center gap-1">
-                <span className="text-[10px] text-slate-500">{day[0]}</span>
+                <span className="text-[10px] font-mono font-bold text-[#2B2420]/60">{day[0]}</span>
                 <div 
-                  className="w-5 h-5 rounded-full bg-gradient-to-tr from-amber-500 to-orange-400 flex items-center justify-center shadow-[0_0_8px_rgba(245,158,11,0.5)] border border-amber-300/40"
+                  className="w-5 h-5 rounded-full bg-[#D4A017] flex items-center justify-center shadow-sm border border-[#3D3226]/20"
                   title={`${day}: Active study recorded`}
                 >
-                  <span className="text-[9px] text-black font-bold">✓</span>
+                  <span className="text-[9px] text-[#2B2420] font-black">✓</span>
                 </div>
               </div>
             ))}
@@ -207,11 +203,11 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Compass className="w-4 h-4 text-cyan-400" />
-            <h2 className="text-lg font-bold text-white">Your Persisted Memory Palaces</h2>
+            <Compass className="w-4 h-4 text-[#2E5940]" />
+            <h2 className="text-lg font-serif font-bold text-[#2B2420]">Your Persisted Memory Palaces</h2>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-400 font-mono">
+            <span className="text-xs text-[#2B2420]/70 font-mono font-bold">
               {isLoadingScenes ? 'Syncing...' : `${savedScenes.length} Saved in Firestore`}
             </span>
           </div>
@@ -219,18 +215,18 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
 
         {savedScenes.length === 0 ? (
           /* Empty State */
-          <div className="rounded-2xl border border-dashed border-purple-500/20 bg-[#090d1f]/40 p-8 text-center flex flex-col items-center justify-center">
-            <div className="w-12 h-12 rounded-2xl bg-purple-950/60 border border-purple-500/30 flex items-center justify-center text-purple-300 mb-3">
-              <Compass className="w-6 h-6 text-cyan-300" />
+          <div className="rounded-2xl border-2 border-dashed border-[#3D3226]/30 bg-[#DCCFB0] p-8 text-center flex flex-col items-center justify-center shadow-[0_4px_0_#3D3226]">
+            <div className="w-12 h-12 rounded-2xl bg-[#ECE5D6] border-2 border-[#3D3226]/20 flex items-center justify-center text-[#C2571B] mb-3 shadow-[0_2px_0_#3D3226]">
+              <Compass className="w-6 h-6 text-[#2E5940]" />
             </div>
-            <h3 className="text-base font-semibold text-white mb-1">No Saved Memory Palaces Yet</h3>
-            <p className="text-xs text-slate-400 max-w-md mb-4">
+            <h3 className="text-base font-serif font-bold text-[#2B2420] mb-1">No Saved Memory Palaces Yet</h3>
+            <p className="text-xs text-[#2B2420]/80 max-w-md mb-4 leading-relaxed font-medium">
               When you generate a memory palace, it will automatically save into your Firestore database so you can revisit your chambers anytime.
             </p>
             <button
               type="button"
               onClick={onNavigateToInput}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 shadow-md transition-all flex items-center gap-2"
+              className="game-btn-primary px-4 py-2.5 text-xs font-bold shadow-[0_3px_0_#8B350C] flex items-center gap-2 cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Generate Your First Palace</span>
@@ -245,24 +241,24 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                 <div
                   key={scene.id || scene.scene_name}
                   id={`saved-palace-card-${scene.id || 'current'}`}
-                  className="rounded-xl bg-[#090d1f]/80 border border-slate-800 hover:border-purple-500/40 p-4 transition-all duration-200 hover:bg-[#0d132b] flex flex-col justify-between group"
+                  className="rounded-2xl bg-[#DCCFB0] border-2 border-[#3D3226]/25 hover:border-[#C2571B] p-5 transition-all duration-150 flex flex-col justify-between group shadow-[0_4px_0_#3D3226] hover:-translate-y-1 hover:shadow-[0_6px_0_#3D3226]"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[10px] uppercase font-mono tracking-wider px-2 py-0.5 rounded bg-purple-950/60 text-purple-300 border border-purple-500/30">
+                      <span className="text-[10px] uppercase font-mono tracking-wider px-2.5 py-0.5 rounded-md bg-[#ECE5D6] text-[#C2571B] border border-[#3D3226]/20 font-bold shadow-sm">
                         {scene.archetype || 'Palace'}
                       </span>
-                      <span className="text-xs text-slate-500 flex items-center gap-1">
+                      <span className="text-xs text-[#2B2420]/60 flex items-center gap-1 font-mono font-medium">
                         <Clock className="w-3 h-3" />
                         {formatDate(scene.createdAt)}
                       </span>
                     </div>
-                    <h3 className="font-semibold text-sm text-slate-100 group-hover:text-cyan-200 transition-colors mb-2 line-clamp-1">
+                    <h3 className="font-serif font-bold text-sm text-[#2B2420] group-hover:text-[#C2571B] transition-colors mb-2 line-clamp-1">
                       {scene.scene_name}
                     </h3>
-                    <div className="flex items-center justify-between text-xs text-slate-400 mb-4">
-                      <span>{roomsCount} Anchor Loci / Room{roomsCount === 1 ? '' : 's'}</span>
-                      <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                    <div className="flex items-center justify-between text-xs text-[#2B2420]/75 mb-4">
+                      <span className="font-medium">{roomsCount} Anchor Loci / Room{roomsCount === 1 ? '' : 's'}</span>
+                      <span className="text-[#2E5940] font-bold flex items-center gap-1 font-mono">
                         <CheckCircle2 className="w-3 h-3" />
                         Saved
                       </span>
@@ -278,7 +274,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                         onNavigateToScene();
                       }
                     }}
-                    className="w-full py-2 px-3 rounded-lg text-xs font-semibold text-slate-200 bg-slate-800/60 hover:bg-gradient-to-r hover:from-purple-600/80 hover:to-cyan-600/80 hover:text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer border border-slate-700/50"
+                    className="w-full py-2.5 px-3 game-btn-primary text-xs font-bold shadow-[0_3px_0_#8B350C] flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <span>Enter Palace</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -291,36 +287,36 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       </div>
 
       {/* Spaced Spatial Recall Cadence Card */}
-      <div className="rounded-2xl bg-[#090d1f]/70 border border-slate-800/80 p-5 backdrop-blur-md">
+      <div className="rounded-2xl bg-[#DCCFB0] border-2 border-[#3D3226]/25 p-5 shadow-[0_5px_0_#3D3226]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2">
-            <BarChart3 className="w-4 h-4 text-purple-400" />
-            <h3 className="text-sm font-semibold text-white">Spaced Spatial Recall & Exam Collections</h3>
+            <BarChart3 className="w-4 h-4 text-[#2E5940]" />
+            <h3 className="text-sm font-serif font-bold text-[#2B2420]">Spaced Spatial Recall & Exam Collections</h3>
           </div>
-          <div className="flex items-center gap-3 text-xs text-slate-400">
-            <span>Quiz Attempts: <strong className="text-cyan-300">{quizCount}</strong></span>
+          <div className="flex items-center gap-3 text-xs text-[#2B2420]/70 font-mono">
+            <span>Quiz Attempts: <strong className="text-[#C2571B]">{quizCount}</strong></span>
             <span>•</span>
-            <span>Next Review: <strong className="text-cyan-300">Tomorrow at 9:00 AM</strong></span>
+            <span>Next Review: <strong className="text-[#2B2420]">Tomorrow at 9:00 AM</strong></span>
           </div>
         </div>
 
         {/* Informative Firestore collections readiness notice */}
-        <div className="p-4 rounded-xl bg-[#060914] border border-slate-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-slate-400">
+        <div className="p-4 rounded-xl bg-[#ECE5D6] border-2 border-[#3D3226]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-[#2B2420] shadow-[0_2px_0_#3D3226]">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-cyan-950/80 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-[#DCCFB0] border border-[#3D3226]/20 flex items-center justify-center text-[#2E5940] shrink-0 shadow-sm">
               <Calendar className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-semibold text-slate-200 block">Firestore Collections Active</span>
-              <span>
-                Collections <code className="text-cyan-300 font-mono">scenes</code>, <code className="text-purple-300 font-mono">quiz_results</code>, <code className="text-amber-300 font-mono">points</code>, and <code className="text-emerald-300 font-mono">user_progress</code> are provisioned and synchronized with your memory palaces.
+              <span className="font-bold text-[#2B2420] block">Firestore Collections Active</span>
+              <span className="text-[#2B2420]/80 font-medium">
+                Collections <code className="text-[#C2571B] font-mono font-bold">scenes</code>, <code className="text-[#2E5940] font-mono font-bold">quiz_results</code>, <code className="text-[#D4A017] font-mono font-bold">points</code>, and <code className="text-[#2E5940] font-mono font-bold">user_progress</code> are provisioned and synchronized with your memory palaces.
               </span>
             </div>
           </div>
           <button
             type="button"
             onClick={onNavigateToScene}
-            className="px-3.5 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 border border-purple-500/30 font-semibold shrink-0 transition-colors cursor-pointer"
+            className="game-btn-secondary px-3.5 py-1.5 text-xs font-bold shadow-[0_2px_0_#3D3226] shrink-0 cursor-pointer"
           >
             Review Active Palace
           </button>

@@ -1,31 +1,123 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Nunito", "Quicksand", system-ui, -apple-system, sans-serif;
+  --font-serif: "Fredoka", "Baloo 2", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
 @layer base {
   body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #070913;
-    color: #e2e8f0;
+    font-family: 'Nunito', 'Quicksand', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #EAE2D0;
+    color: #2B2420;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  h1, h2, h3, h4, h5, h6, .font-serif, .font-headline {
+    font-family: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
+    color: #2B2420;
+    letter-spacing: -0.01em;
+  }
+
+  code, kbd, samp, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
   }
 }
 
-/* Custom subtle ambient grid pattern */
-.bg-dream-grid {
-  background-size: 48px 48px;
+/* Subtle blueprint grid pattern */
+.bg-blueprint-grid {
+  background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(99, 102, 241, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(61, 50, 38, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(61, 50, 38, 0.08) 1px, transparent 1px);
 }
 
-/* Subtle glowing pulse */
-@keyframes ambientGlow {
-  0%, 100% { opacity: 0.35; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.05); }
+/* Tactile Game Tile Card with Solid 3D Offset Drop Shadow */
+.game-card, .card-bracket {
+  background-color: #DCCFB0;
+  border-radius: 16px;
+  border: 1.5px solid rgba(61, 50, 38, 0.25);
+  box-shadow: 0 5px 0 #3D3226;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
-.animate-ambient-glow {
-  animation: ambientGlow 8s ease-in-out infinite;
+.game-card-hover:hover, .card-bracket.cursor-pointer:hover, button.card-bracket:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 8px 0 #3D3226;
+  border-color: #C2571B;
+}
+
+.game-card:active, .card-bracket:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #3D3226;
+}
+
+/* Chunky Tactile Game Buttons */
+.game-btn-primary {
+  font-family: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
+  background-color: #C2571B;
+  color: #FFFFFF;
+  font-weight: 700;
+  border-radius: 14px;
+  border: 2px solid #8B350C;
+  box-shadow: 0 5px 0 #8B350C;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+  cursor: pointer;
+}
+
+.game-btn-primary:hover:not(:disabled) {
+  background-color: #a84814;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #8B350C;
+}
+
+.game-btn-primary:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #8B350C;
+}
+
+.game-btn-secondary {
+  font-family: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
+  background-color: #ECE5D6;
+  color: #2B2420;
+  font-weight: 700;
+  border-radius: 14px;
+  border: 2px solid #3D3226;
+  box-shadow: 0 4px 0 #3D3226;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+  cursor: pointer;
+}
+
+.game-btn-secondary:hover:not(:disabled) {
+  background-color: #DCCFB0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #3D3226;
+}
+
+.game-btn-secondary:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #3D3226;
+}
+
+.game-btn-sage {
+  font-family: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
+  background-color: #2E5940;
+  color: #FFFFFF;
+  font-weight: 700;
+  border-radius: 14px;
+  border: 2px solid #1a3826;
+  box-shadow: 0 4px 0 #1a3826;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+  cursor: pointer;
+}
+
+.game-btn-sage:hover:not(:disabled) {
+  background-color: #244733;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #1a3826;
+}
+
+.game-btn-sage:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #1a3826;
 }
