@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Open access for hackathon prototype (no authentication required)
+    // KNOWN LIMITATION: Anyone can read and write. Must configure Firebase Auth before real-world production use!
+    match /scenes/{document=**} {
+      allow read, write: if true;
+    }
+    match /quiz_results/{document=**} {
+      allow read, write: if true;
+    }
+    match /points/{document=**} {
+      allow read, write: if true;
+    }
+    match /user_progress/{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

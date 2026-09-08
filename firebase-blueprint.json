@@ -1,0 +1,64 @@
+{
+  "entities": {
+    "scenes": {
+      "title": "Scenes",
+      "description": "Generated memory palace scenes and their associated rooms",
+      "type": "object",
+      "properties": {
+        "scene_name": {
+          "type": "string",
+          "description": "Overarching title of the memory palace"
+        },
+        "rooms": {
+          "type": "array",
+          "description": "Array of concept rooms inside this memory palace"
+        },
+        "archetype": {
+          "type": "string",
+          "description": "Architectural theme/archetype chosen"
+        },
+        "notesSnippet": {
+          "type": "string",
+          "description": "Preview of user study notes"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp when scene was generated"
+        }
+      },
+      "required": ["scene_name", "rooms", "createdAt"]
+    },
+    "quiz_results": {
+      "title": "Quiz Results",
+      "description": "Exam Mode scores and assessment results",
+      "type": "object",
+      "properties": {
+        "score": { "type": "number" },
+        "total": { "type": "number" },
+        "sceneId": { "type": "string" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "points": {
+      "title": "Points",
+      "description": "Points and unlock system transaction records",
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number" },
+        "reason": { "type": "string" },
+        "earnedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "user_progress": {
+      "title": "User Progress",
+      "description": "Spaced repetition scheduling and mastery records",
+      "type": "object",
+      "properties": {
+        "retentionRate": { "type": "number" },
+        "lastStudied": { "type": "string", "format": "date-time" },
+        "streakDays": { "type": "number" }
+      }
+    }
+  }
+}
