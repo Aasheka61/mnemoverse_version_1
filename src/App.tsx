@@ -8,6 +8,7 @@ import { Navigation } from './components/Navigation';
 import { InputScreen } from './components/InputScreen';
 import { SceneScreen } from './components/SceneScreen';
 import { DashboardScreen } from './components/DashboardScreen';
+import { ExamModeScreen } from './components/ExamModeScreen';
 import { ARCHETYPES, DEFAULT_GENERATED_SCENE, INITIAL_USER_STATS, SAMPLE_INPUT_PRESETS } from './data';
 import { GeneratedMemoryPalaceScene, PalaceArchetype, ScreenType, UserStats } from './types';
 import { generateMemoryPalaceScene } from './services/gemini';
@@ -103,6 +104,15 @@ export default function App() {
             archetype={selectedArchetype}
             generatedScene={generatedScene}
             notesSnippet={inputText.slice(0, 140)}
+            onNavigateToInput={() => setCurrentScreen('input')}
+            onNavigateToDashboard={() => setCurrentScreen('dashboard')}
+            onNavigateToExam={() => setCurrentScreen('exam')}
+          />
+        )}
+
+        {currentScreen === 'exam' && (
+          <ExamModeScreen
+            generatedScene={generatedScene}
             onNavigateToInput={() => setCurrentScreen('input')}
             onNavigateToDashboard={() => setCurrentScreen('dashboard')}
           />

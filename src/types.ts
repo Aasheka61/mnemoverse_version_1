@@ -1,4 +1,4 @@
-export type ScreenType = 'input' | 'scene' | 'dashboard';
+export type ScreenType = 'input' | 'scene' | 'dashboard' | 'exam';
 
 export interface MemoryRoom {
   room_id: string;

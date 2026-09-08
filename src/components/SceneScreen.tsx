@@ -14,7 +14,8 @@ import {
   Check,
   BrainCircuit,
   DoorOpen,
-  Home
+  Home,
+  GraduationCap
 } from 'lucide-react';
 import { GeneratedMemoryPalaceScene, MemoryRoom, PalaceArchetype } from '../types';
 
@@ -24,6 +25,7 @@ interface SceneScreenProps {
   notesSnippet: string;
   onNavigateToInput: () => void;
   onNavigateToDashboard: () => void;
+  onNavigateToExam: () => void;
 }
 
 export const SceneScreen: React.FC<SceneScreenProps> = ({
@@ -32,6 +34,7 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
   notesSnippet,
   onNavigateToInput,
   onNavigateToDashboard,
+  onNavigateToExam,
 }) => {
   const [activeRoomIndex, setActiveRoomIndex] = useState<number>(0);
   const [showJsonInspector, setShowJsonInspector] = useState<boolean>(false);
@@ -137,6 +140,16 @@ export const SceneScreen: React.FC<SceneScreenProps> = ({
           >
             <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
             <span>Generate New</span>
+          </button>
+
+          <button
+            type="button"
+            id="scene-start-exam-btn"
+            onClick={onNavigateToExam}
+            className="text-xs px-3.5 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-medium shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <GraduationCap className="w-3.5 h-3.5 text-cyan-200" />
+            <span>Start Exam</span>
           </button>
 
           <button
